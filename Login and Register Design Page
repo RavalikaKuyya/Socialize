@@ -1,0 +1,224 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Socialize.Login" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css"/>
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css"/>
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css"/>
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css"/>
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css"/>
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css"/>
+	<link rel="stylesheet" type="text/css" href="css/util.css"/>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+            <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css" />
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/float-label-css/v1.0.2/dist/float-label.min.css"/>
+    <title></title>
+    <style type="text/css">
+        .auto-style1 {
+            float: right;
+            width: 50%;
+            height: 196px;
+        }
+        .auto-style2 {
+            float: left;
+            width: 50%;
+            height: 197px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnlogin").click(function () {      
+            if ($("#txtusername").val() == "") {
+                alert("username shouldn't be empty");
+                return false;
+            }
+            else if ($("#txtpassword").val() == "") {
+                alert("password shouldn't be empty");
+                return false;
+            }
+            else
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:52342/Login.aspx/login1",
+                    data: '{username:"' + $("#txtusername").val() + '",password:"' + $("#txtpassword").val() + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (JSON.stringify(msg.d)) 
+                            window.location.href = "http://localhost:52342/Index.aspx";
+                        else        
+                            alert("error in username and password");
+                    },
+                    error: function () {
+                        alert("error in username and password");
+                    }
+                });
+            }
+        })
+        $("#btnsignup").click(function () {
+            if ($("#txtfirstname").val() == "") {
+                alert("firstname shouldn't be empty");
+                return false;
+            }
+            else if ($("#txtlastname").val() == "") {
+                alert("lastname shouldn't be empty");
+                return false;
+            }
+            else if ($("#txtemailid").val() == "") {
+                alert("emailid shouldn't be empty");
+                return false;
+            }
+            else if ($("#txtspassword").val() == "") {
+                alert("password shouldn't be empty");
+                return false;
+            }
+            else if ($("#txtcpassword").val() != $("#txtspassword").val()) {
+                alert("password and confirm password should be same");
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:52342/Login.aspx/signup",
+                    data: '{firstname:"' + $("#txtfirstname").val() + '",lastname:"' + $("#txtlastname").val() + '",username:"' + $("#txtemailid").val() + '",password:"' + $("#txtspassword").val() + '",cpassword:"' + $("#txtcpassword").val() + '",num:"' + $("#txtnum").val() + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (JSON.stringify(msg.d)) {
+                            window.location.href = "http://localhost:52342/Index.aspx";
+                        }
+                        else
+                            alert(JSON.stringify(msg.d));
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            }
+        })
+        //Sending data into database through Ajax.
+
+    });
+</script>
+    <h1 align="center">Socialize</h1>
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+                <p style="color:azure"> Socialize!</p>
+                <form class="login100-form validate-form" runat="server">
+                    <span class="login100-form-title p-b-34">
+                        Account Login
+                    </span>
+
+                    <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                        <input id="txtusername" class="input100" type="text" name="username" placeholder="User name">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
+                        <input id="txtpassword" class="input100" type="password" name="pass" placeholder="Password">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                                <input type="button" value="login" id="btnlogin" class="login100-form-btn" />
+
+                       
+                    </div>
+                    <span class="login100-form-title p-b-34">
+                        Register Me
+                    </span>
+
+                    <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                        <input id="txtfirstname" class="input100" type="text" name="username" placeholder="First Name">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="">
+                        <input id="txtlastname" class="input100" type="password" name="pass" placeholder="Last Name">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                        <input id="txtspassword" class="input100" type="text" name="username" placeholder="Password">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
+                        <input id="txtcpassword" class="input100" type="password" name="pass" placeholder="Confirm Password">
+                        <span class="focus-input100"></span>
+                    </div>     <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                        <input id="txtemailid" class="input100" type="text" name="username" placeholder="Email ID">
+                        <span class="focus-input100"></span>
+                    </div>
+                
+                       <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                        <input id="txtnum" class="input100" type="text" name="username" placeholder="Mobile Numer">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="container-login100-form-btn">
+                                   <input type="button" value="signup" id="btnsignup"  class="login100-form-btn"  />
+
+                    </div>
+
+                    <div class="w-full text-center p-t-27 p-b-239">
+                        <span class="txt1">
+                            Forgot
+                        </span>
+
+                        <a href="#" class="txt2">
+                            User name / password?
+                        </a>
+                    </div>
+                    <div>
+                        <p> Register Me</p>
+
+                        <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                            <input id="first-name" class="input100" type="text" name="username" placeholder="User name">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
+                            <input class="input100" type="password" name="pass" placeholder="Password">
+                            <span class="focus-input100"></span>
+                        </div>
+                    </div>
+
+                    <div class="w-full text-center">
+                        <a href="#" class="txt3">
+                            Sign Up
+                        </a>
+                      
+                    </div>
+                </form>
+
+			
+			</div>
+		</div>
+	</div>
+	
+	
+
+	<div id="dropDownSelect1"></div>
+	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="vendor/select2/select2.min.js"></script>
+	<script>
+        $(".selection-2").select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $('#dropDownSelect1')
+        });
+	</script>
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+	<script src="js/main.js"></script></body>
+</html>
+
